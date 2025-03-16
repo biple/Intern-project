@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirHostess Training Verification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <img src="assets/images/globalwings.png" alt="Global Wings Logo" class="logo">
+        <h2>Verify your AirHostess Training Certification</h2>
+        <div class="highlight">Enter your <b>symbol number</b>, <b>Issue date</b> and <b>Passed Year </b>as given format to verify your Certification.</div>
+        <form id="verification-form">
+            <label for="symbol">Symbol No:</label>
+            <input type="text" id="symbol" name="symbol" placeholder="e.g. 0010001Q or 0010001" required>
+
+            <label for="dob">Issue Date:</label>
+            <input type="date" id="issuedate" name="issuedate" required>
+
+            <label for="year">Passed Year:</label>
+            <input type="number" id="year" name="year" placeholder="e.g. 2073" required>
+
+            <button type="submit" class="btn">Get Result</button>
+        </form>
+        <p class="note">नोटः यो वेबसाइटमा राखिएको परीक्षार्थीहरुको विवरण प्रचलित कनुन बमोजिम संसोधन हुने प्राबधान
+            रहेकाले परीक्षार्थीहरुको रेकर्ड भेरिफाई नभएमा अन्तिम सत्यापनका लागि <a
+                href="globalwings.com.np/contact-us">GlobalWings</a> मा सम्पर्क राख्नुहोला ।</p>
+        <p class="note">Note: The details may be amended according to the prevailing laws. If your details do not match,
+            please contact <a href="globalwings.com.np/contact-us">GlobalWings</a> for final verification.</p>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#verification-form').submit(function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                var formData = $(this).serialize(); // Get form data
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'verify_certificate.php', // Ensure this matches your backend script
+                    data: formData,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            $('#result').html('<span style="color: green;">Certificate Found: ' + response.certificate.name + ' - ' + response.certificate.course + '</span><br>' +
+                                '<a href="' + response.certificate.certificate_url + '" target="_blank">Download Certificate</a>');
+                        } else {
+                            $('#result').html('<span style="color: red;">' + response.message + '</span>');
+                        }
+                    },
+                    error: function () {
+                        $('#result').html('<span style="color: red;">An error occurred while verifying. Please try again later.</span>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
