@@ -31,34 +31,6 @@
         <p class="note">Note: The details may be amended according to the prevailing laws. If your details do not match,
             please contact <a href="globalwings.com.np/contact-us">GlobalWings</a> for final verification.</p>
     </div>
-
-    <script>
-        $(document).ready(function () {
-            $('#verification-form').submit(function (event) {
-                event.preventDefault(); // Prevent form submission
-
-                var formData = $(this).serialize(); // Get form data
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'verify_certificate.php', // Ensure this matches your backend script
-                    data: formData,
-                    dataType: 'json',
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            $('#result').html('<span style="color: green;">Certificate Found: ' + response.certificate.name + ' - ' + response.certificate.course + '</span><br>' +
-                                '<a href="' + response.certificate.certificate_url + '" target="_blank">Download Certificate</a>');
-                        } else {
-                            $('#result').html('<span style="color: red;">' + response.message + '</span>');
-                        }
-                    },
-                    error: function () {
-                        $('#result').html('<span style="color: red;">An error occurred while verifying. Please try again later.</span>');
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
